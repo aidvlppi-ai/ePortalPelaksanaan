@@ -1,0 +1,1729 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Perkhidmatan Pusat Islam USIM</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        // Palet Warna Korporat USIM & Pusat Islam (Navy, Teal, Emas/Gold & Slate)
+                        usim: {
+                            navy: '#0b2545',
+                            navyLight: '#134074',
+                            teal: '#007f8a',
+                            tealDark: '#005f66',
+                            gold: '#c29b38',
+                            goldLight: '#dfb75c',
+                            surface: '#f8fafc',
+                            border: '#e2e8f0',
+                            card: '#ffffff'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom dropdown arrow styling */
+        select {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23007f8a' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 0.75rem center;
+            background-repeat: no-repeat;
+            background-size: 1.25em 1.25em;
+            padding-right: 2.5rem;
+            -webkit-print-color-adjust: exact;
+            appearance: none;
+        }
+        /* Active Tab indicator */
+        .nav-tab-btn.active {
+            color: #007f8a;
+            border-bottom: 2.5px solid #007f8a;
+            font-weight: 700;
+            background-color: #f0fdfa;
+        }
+        /* Smooth form interactive styling */
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+        }
+        @media print {
+            header, nav, footer, .no-print {
+                display: none !important;
+            }
+            body {
+                background: white !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-usim-surface text-slate-800 font-sans min-h-screen flex flex-col antialiased selection:bg-teal-100 selection:text-teal-900">
+
+    <!-- Top Corporate Header Bar -->
+    <div class="bg-usim-navy text-white text-xs py-2 px-4 border-b border-white/10 no-print">
+        <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-2">
+            <div class="flex items-center gap-2">
+                <span class="inline-block w-2 h-2 rounded-full bg-emerald-400"></span>
+                <span class="font-medium tracking-wide">Portal Rasmi e-Perkhidmatan Pusat Islam Universiti Sains Islam Malaysia</span>
+            </div>
+            <div class="flex items-center space-x-4 text-slate-300 text-[11px]">
+                <span>Kompleks Islam Tunku Muhriz</span>
+                <span class="hidden sm:inline">|</span>
+                <span class="hidden sm:inline">Tel: +606-798 8000</span>
+                <span class="hidden sm:inline">|</span>
+                <span class="text-usim-goldLight font-semibold">Tahun 2026</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Navigation Bar -->
+    <header class="bg-white border-b border-usim-border sticky top-0 z-40 shadow-sm no-print">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                
+                <!-- Corporate Logo & Brand -->
+                <div class="flex items-center gap-3.5 cursor-pointer" onclick="switchModule('perkhidmatan')">
+                    <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-tr from-usim-navy to-usim-teal flex items-center justify-center text-white shadow-md shadow-usim-navy/15 flex-shrink-0 border border-teal-500/30">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 21V7m0 0l7 5m-7-5L5 12m14-2v9a2 2 0 01-2 2H7a2 2 0 01-2-2V10m14-2l-7-5-7 5"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h1 class="text-base sm:text-lg font-bold tracking-tight text-usim-navy">Pusat Islam USIM</h1>
+                            <span class="bg-amber-100 text-amber-900 text-[10px] font-extrabold px-2 py-0.5 rounded border border-amber-300">SISTEM e-KHIDMAT</span>
+                        </div>
+                        <p class="text-[11px] sm:text-xs text-slate-500 font-medium">Pengurusan Permohonan, Ruang, Aduan & Pemantauan Tindakan</p>
+                    </div>
+                </div>
+
+                <!-- Device Indicator Pill -->
+                <div class="hidden lg:flex items-center gap-2 text-xs bg-slate-100/80 text-slate-600 px-3 py-1.5 rounded-lg border border-slate-200">
+                    <span class="w-2 h-2 rounded-full bg-teal-600"></span>
+                    <span>Paparan Responsif: Mudah Alih • Tablet • Desktop</span>
+                </div>
+
+                <!-- Mobile Hamburger Button -->
+                <div class="flex lg:hidden">
+                    <button id="mobileMenuToggle" type="button" class="p-2.5 rounded-xl text-slate-700 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-usim-teal" aria-label="Buka Menu">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tabbed Navigation Links (Desktop & Tablet) -->
+            <nav class="hidden lg:flex space-x-1 border-t border-slate-100 overflow-x-auto scrollbar-none">
+                <button onclick="switchModule('perkhidmatan')" id="btn-tab-perkhidmatan" class="nav-tab-btn active py-3.5 px-4 text-xs font-semibold text-slate-600 hover:text-usim-teal flex items-center gap-2 whitespace-nowrap transition-all border-b-2 border-transparent">
+                    <svg class="w-4 h-4 text-usim-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                    1. Perkhidmatan
+                </button>
+                <button onclick="switchModule('kerjasama')" id="btn-tab-kerjasama" class="nav-tab-btn py-3.5 px-4 text-xs font-semibold text-slate-600 hover:text-usim-teal flex items-center gap-2 whitespace-nowrap transition-all border-b-2 border-transparent">
+                    <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+                    2. Kerjasama Program
+                </button>
+                <button onclick="switchModule('fasiliti')" id="btn-tab-fasiliti" class="nav-tab-btn py-3.5 px-4 text-xs font-semibold text-slate-600 hover:text-usim-teal flex items-center gap-2 whitespace-nowrap transition-all border-b-2 border-transparent">
+                    <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+                    3. Tempahan Fasiliti & Ruang
+                </button>
+                <button onclick="switchModule('aduan')" id="btn-tab-aduan" class="nav-tab-btn py-3.5 px-4 text-xs font-semibold text-slate-600 hover:text-usim-teal flex items-center gap-2 whitespace-nowrap transition-all border-b-2 border-transparent">
+                    <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
+                    4. Aduan / Maklum Balas
+                </button>
+                <button onclick="switchModule('semakan')" id="btn-tab-semakan" class="nav-tab-btn py-3.5 px-4 text-xs font-semibold text-slate-600 hover:text-usim-teal flex items-center gap-2 whitespace-nowrap transition-all border-b-2 border-transparent">
+                    <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+                    5. Semakan Status Tindakan
+                </button>
+                <button onclick="switchModule('pengurusan')" id="btn-tab-pengurusan" class="nav-tab-btn py-3.5 px-4 text-xs font-semibold text-slate-600 hover:text-usim-teal flex items-center gap-2 whitespace-nowrap transition-all border-b-2 border-transparent">
+                    <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                    Papan Pentadbir / Pengesah
+                </button>
+            </nav>
+        </div>
+
+        <!-- Mobile Navigation Drawer -->
+        <div id="mobileDrawer" class="hidden lg:hidden bg-usim-navy text-white px-4 py-3 space-y-1 border-t border-slate-700">
+            <button onclick="switchModule('perkhidmatan')" class="w-full text-left py-2.5 px-3 rounded-lg text-xs font-medium hover:bg-white/10 flex items-center gap-2">
+                <span>📖</span> 1. Perkhidmatan
+            </button>
+            <button onclick="switchModule('kerjasama')" class="w-full text-left py-2.5 px-3 rounded-lg text-xs font-medium hover:bg-white/10 flex items-center gap-2">
+                <span>🤝</span> 2. Kerjasama Program
+            </button>
+            <button onclick="switchModule('fasiliti')" class="w-full text-left py-2.5 px-3 rounded-lg text-xs font-medium hover:bg-white/10 flex items-center gap-2">
+                <span>🕌</span> 3. Tempahan Fasiliti & Ruang
+            </button>
+            <button onclick="switchModule('aduan')" class="w-full text-left py-2.5 px-3 rounded-lg text-xs font-medium hover:bg-white/10 flex items-center gap-2">
+                <span>💬</span> 4. Aduan / Maklum Balas
+            </button>
+            <button onclick="switchModule('semakan')" class="w-full text-left py-2.5 px-3 rounded-lg text-xs font-medium hover:bg-white/10 flex items-center gap-2">
+                <span>🔍</span> 5. Semakan Status Tindakan
+            </button>
+            <button onclick="switchModule('pengurusan')" class="w-full text-left py-2.5 px-3 rounded-lg text-xs font-medium hover:bg-white/10 flex items-center gap-2 text-usim-goldLight font-bold">
+                <span>📊</span> Papan Pentadbir / Pengesah
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+
+        <!-- ======================================================== -->
+        <!-- MODUL 1: PERKHIDMATAN                                    -->
+        <!-- ======================================================== -->
+        <section id="module-perkhidmatan" class="space-y-6">
+            <!-- Corporate Banner Header -->
+            <div class="bg-gradient-to-r from-usim-navy via-slate-900 to-usim-teal text-white rounded-2xl p-6 sm:p-8 shadow-sm relative overflow-hidden">
+                <div class="relative z-10 max-w-3xl">
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-white/10 text-teal-200 border border-white/20 mb-3 uppercase tracking-wider">
+                        Modul 1: Khidmat Hal Ehwal Islam
+                    </span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">Permohonan Perkhidmatan Pusat Islam</h2>
+                    <p class="mt-2 text-slate-200 text-xs sm:text-sm leading-relaxed">
+                        Sila pilih jenis perkhidmatan yang diperlukan serta lengkapkan maklumat permohonan di bawah. Setiap permohonan akan disemak dan disahkan oleh Pegawai Hal Ehwal Islam USIM.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Form Card -->
+            <div class="bg-white rounded-2xl border border-usim-border shadow-sm p-5 sm:p-8">
+                <form id="formPerkhidmatan" onsubmit="handlePerkhidmatanSubmit(event)" class="space-y-8">
+                    
+                    <!-- Dropdown Utama: Pilihan Perkhidmatan Sesuai Spesifikasi -->
+                    <div>
+                        <div class="border-b border-slate-100 pb-3 mb-5 flex items-center justify-between">
+                            <h3 class="text-sm sm:text-base font-bold text-usim-navy flex items-center gap-2">
+                                <span class="w-6 h-6 rounded-lg bg-teal-50 text-usim-teal flex items-center justify-center text-xs font-extrabold">A</span>
+                                Pilihan Jenis Perkhidmatan (Drop-down)
+                            </h3>
+                            <span class="text-xs text-rose-500 font-semibold">* Wajib Dipilih</span>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                            <div class="md:col-span-2">
+                                <label for="pk_jenis" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                                    Pilih Perkhidmatan yang Diperlukan <span class="text-rose-500">*</span>
+                                </label>
+                                <select id="pk_jenis" required onchange="onPerkhidmatanChange(this.value)" class="w-full bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-xl focus:ring-2 focus:ring-usim-teal focus:border-usim-teal p-3.5 transition-colors">
+                                    <option value="" disabled selected>-- Sila Pilih Jenis Perkhidmatan --</option>
+                                    <option value="Bacaan Tahlil, Baca Yasin, Solat Hajat">Bacaan Tahlil, Baca Yasin, Solat Hajat</option>
+                                    <option value="Ruqyah (Rawatan Perubatan Islam)">Ruqyah (Rawatan Perubatan Islam)</option>
+                                    <option value="Pengacaraan Majlis / Baca Doa">Pengacaraan Majlis / Baca Doa</option>
+                                    <option value="Tazkirah">Tazkirah / Kuliah Agama</option>
+                                    <option value="Rundingan, Kaunseling dan bimbingan">Rundingan, Kaunseling dan bimbingan (Syariah / Muallaf / Kekeluargaan)</option>
+                                    <option value="Kebajikan">Kebajikan (Bantuan Asas / Ziarah Mahabbah / Pengurusan Musibah)</option>
+                                    <option value="Sumbangan">Sumbangan (Permohonan Dana Tabung Kebajikan & Pengimarahan)</option>
+                                    <option value="Lain-Lain yang berkaitan">Lain-Lain yang berkaitan</option>
+                                </select>
+                                <p id="pk_description_box" class="mt-2.5 text-xs text-usim-tealDark bg-teal-50 p-2.5 rounded-lg border border-teal-200 hidden"></p>
+                            </div>
+
+                            <!-- Bidang Tambahan jika Lain-lain -->
+                            <div id="pk_lain_box" class="hidden md:col-span-2">
+                                <label for="pk_lain_input" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                                    Nyatakan Jenis Perkhidmatan Lain <span class="text-rose-500">*</span>
+                                </label>
+                                <input type="text" id="pk_lain_input" placeholder="Sila nyatakan perkhidmatan berkaitan yang diperlukan..." class="w-full bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-xl focus:ring-2 focus:ring-usim-teal focus:border-usim-teal p-3">
+                            </div>
+
+                            <!-- Tarikh Dicadangkan -->
+                            <div>
+                                <label for="pk_tarikh" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                                    Tarikh Pelaksanaan Diperlukan <span class="text-rose-500">*</span>
+                                </label>
+                                <input type="date" id="pk_tarikh" required class="w-full bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-xl focus:ring-2 focus:ring-usim-teal focus:border-usim-teal p-3">
+                            </div>
+
+                            <!-- Waktu / Sesi -->
+                            <div>
+                                <label for="pk_waktu" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                                    Sesi / Waktu Khidmat <span class="text-rose-500">*</span>
+                                </label>
+                                <select id="pk_waktu" required class="w-full bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-xl focus:ring-2 focus:ring-usim-teal focus:border-usim-teal p-3">
+                                    <option value="" disabled selected>-- Pilih Sesi Waktu --</option>
+                                    <option value="Sesi Pagi (09:00 PG - 11:30 PG)">Sesi Pagi (09:00 PG - 11:30 PG)</option>
+                                    <option value="Sesi Zohor (12:45 TGH - 02:00 PTG)">Sesi Tengah Hari / Solat Zohor (12:45 TGH - 02:00 PTG)</option>
+                                    <option value="Sesi Petang / Asar (04:30 PTG - 06:00 PTG)">Sesi Petang / Solat Asar (04:30 PTG - 06:00 PTG)</option>
+                                    <option value="Antara Maghrib & Isyak (07:15 MLM - 09:00 MLM)">Antara Maghrib & Isyak (07:15 MLM - 09:00 MLM)</option>
+                                    <option value="Sesi Malam Khas (09:00 MLM ke atas)">Sesi Malam Khas (09:00 MLM ke atas)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Maklumat Lengkap Permohonan -->
+                    <div>
+                        <div class="border-b border-slate-100 pb-3 mb-5">
+                            <h3 class="text-sm sm:text-base font-bold text-usim-navy flex items-center gap-2">
+                                <span class="w-6 h-6 rounded-lg bg-teal-50 text-usim-teal flex items-center justify-center text-xs font-extrabold">B</span>
+                                Maklumat Lengkap Pemohon
+                            </h3>
+                            <p class="text-xs text-slate-500 mt-0.5">Sila lengkapkan maklumat individu atau wakil yang memohon.</p>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                            <!-- Kategori Pemohon -->
+                            <div>
+                                <label for="pk_kategori" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                                    Kategori Pemohon <span class="text-rose-500">*</span>
+                                </label>
+                                <select id="pk_kategori" required class="w-full bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-xl focus:ring-2 focus:ring-usim-teal focus:border-usim-teal p-3">
+                                    <option value="" disabled selected>-- Pilih Kategori --</option>
+                                    <option value="Kakitangan Staf USIM">Kakitangan / Staf USIM</option>
+                                    <option value="Mahasiswa USIM">Mahasiswa USIM (Sarjana Muda / Pascasiswazah)</option>
+                                    <option value="Kelab / Persatuan USIM">Persatuan / Badan Berdaftar USIM</option>
+                                    <option value="Masyarakat / Kariah Luar">Masyarakat Awam / Kariah Nilai</option>
+                                </select>
+                            </div>
+
+                            <!-- Nama Penuh -->
+                            <div>
+                                <label for="pk_nama" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                                    Nama Lengkap <span class="text-rose-500">*</span>
+                                </label>
+                                <input type="text" id="pk_nama" required placeholder="Cth: Dr. Muhammad Harith bin Osman" class="w-full bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-xl focus:ring-2 focus:ring-usim-teal focus:border-usim-teal p-3">
+                            </div>
+
+                            <!-- No Telefon WhatsApp -->
+                            <div>
+                                <label for="pk_tel" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                                    No. Telefon (WhatsApp) <span class="text-rose-500">*</span>
+                                </label>
+                                <input type="tel" id="pk_tel" required placeholder="Cth: 013-4567890" class="w-full bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-xl focus:ring-2 focus:ring-usim-teal focus:border-usim-teal p-3">
+                            </div>
+
+                            <!-- Lokasi Pelaksanaan -->
+                            <div class="sm:col-span-2 lg:col-span-3">
+                                <label for="pk_lokasi" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                                    Lokasi / Tempat Pelaksanaan Khidmat <span class="text-rose-500">*</span>
+                                </label>
+                                <select id="pk_lokasi" required class="w-full bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-xl focus:ring-2 focus:ring-usim-teal focus:border-usim-teal p-3">
+                                    <option value="" disabled selected>-- Pilih Lokasi --</option>
+                                    <option value="Kompleks Islam Tunku Muhriz (Masjid USIM)">Kompleks Islam Tunku Muhriz (Masjid USIM)</option>
+                                    <option value="Bilik Rawatan Syifaa' Pusat Islam">Bilik Rawatan Syifaa' Pusat Islam (Khas Ruqyah/Bimbingan)</option>
+                                    <option value="Dewan Kuliah / Fakulti USIM">Dewan Kuliah / Fakulti Kampus USIM</option>
+                                    <option value="Kolej Kediaman Mahasiswa USIM">Kolej Kediaman Mahasiswa USIM</option>
+                                    <option value="Kediaman Pemohon (Sekitar Nilai)">Kediaman Pemohon (Sekitar Nilai)</option>
+                                    <option value="Secara Maya / Dalam Talian">Secara Maya / Dalam Talian (Zoom / Webex)</option>
+                                </select>
+                            </div>
+
+                            <!-- Keterangan Maklumat Lengkap -->
+                            <div class="sm:col-span-2 lg:col-span-3">
+                                <label for="pk_keterangan" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                                    Maklumat Lengkap Permohonan & Keperluan Khusus <span class="text-rose-500">*</span>
+                                </label>
+                                <textarea id="pk_keterangan" rows="3" required placeholder="Nyatakan butiran permohonan secara terperinci (cth: Nama arwah untuk Tahlil, simptom gangguan untuk rawatan Ruqyah, tajuk teks doa majlis rasmi, atau butiran bimbingan kekeluargaan/kebajikan)..." class="w-full bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-xl focus:ring-2 focus:ring-usim-teal focus:border-usim-teal p-3"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Submission Action -->
+                    <div class="flex flex-col sm:flex-row justify-end gap-3 pt-3 border-t border-slate-100">
+                        <button type="reset" class="px-6 py-3 rounded-xl border border-slate-300 text-slate-700 font-semibold text-xs uppercase tracking-wider hover:bg-slate-50 transition-colors">
+                            Set Semula
+                        </button>
+                        <button type="submit" class="px-8 py-3 rounded-xl bg-usim-navy hover:bg-usim-navyLight text-white font-bold text-xs uppercase tracking-wider shadow transition-all flex items-center justify-center gap-2">
+                            <span>Hantar Permohonan Perkhidmatan</span>
+                            <svg class="w-4 h-4 text-usim-goldLight" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- ======================================================== -->
+        <!-- MODUL 2: KERJASAMA PROGRAM                               -->
+        <!-- ======================================================== -->
+        <section id="module-kerjasama" class="hidden space-y-6">
+            <div class="bg-gradient-to-r from-slate-900 via-usim-navy to-usim-tealDark text-white rounded-2xl p-6 sm:p-8 shadow-sm relative overflow-hidden">
+                <div class="relative z-10 max-w-3xl">
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-white/10 text-amber-200 border border-white/20 mb-3 uppercase tracking-wider">
+                        Modul 2: Hubungan Strategik & Pengimarahan
+                    </span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">Permohonan Kerjasama Program</h2>
+                    <p class="mt-2 text-slate-200 text-xs sm:text-sm leading-relaxed">
+                        Saluran rasmi bagi Fakulti, Institut, Persatuan Pelajar, serta Agensi Luar yang berhasrat mengadakan program kolaborasi pengimarahan dakwah bersama Pusat Islam USIM.
+                    </p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl border border-usim-border shadow-sm p-5 sm:p-8">
+                <form id="formKerjasama" onsubmit="handleKerjasamaSubmit(event)" class="space-y-8">
+                    
+                    <!-- 1. Maklumat Pemohon -->
+                    <div>
+                        <div class="border-b border-slate-100 pb-3 mb-5">
+                            <h3 class="text-sm sm:text-base font-bold text-usim-navy flex items-center gap-2">
+                                <span class="w-6 h-6 rounded-lg bg-teal-50 text-usim-teal flex items-center justify-center text-xs font-extrabold">1</span>
+                                Maklumat Pemohon & Organisasi
+                            </h3>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                            <div>
+                                <label for="kj_nama_pemohon" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                                    Nama Pegawai / Penyelaras <span class="text-rose-500">*</span>
+                                </label>
+                                <input type="text" id="kj_nama_pemohon" required placeholder="Cth: Ustaz Wan Zulkifli bin Daud" class="w-full bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-xl focus:ring-2 focus:ring-usim-teal focus:border-usim-teal p-3">
+                            </div>
+
+                            <div>
+                                <label for="kj_organisasi" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                                    Nama Fakulti / Kelab / Agensi Luar <span class="text-rose-500">*</span>
+                                </label>
+                                <input type="text" id="kj_organisasi" required placeholder="Cth: Fakulti Syariah & Undang-Undang / NGO Belia" class="w-full bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-xl focus:ring-2 focus:ring-usim-teal focus:border-usim-teal p-3">
+                            </div>
+
+                            <div>
+                                <label for="kj_tel" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                                    No. Telefon / WhatsApp Penyelaras <span class="text-rose-500">*</span>
+                                </label>
+                                <input type="tel" id="kj_tel" required placeholder="Cth: 019-8765432" class="w-full bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-xl focus:ring-2 focus:ring-usim-teal focus:border-usim-teal p-3">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2. Maklumat Program -->
+                    <div>
+                        <div class="border-b border-slate-100 pb-3 mb-5">
+                            <h3 class="text-sm sm:text-base font-bold text-usim-navy flex items-center gap-2">
+                                <span class="w-6 h-6 rounded-lg bg-teal-50 text-usim-teal flex items-center justify-center text-xs font-extrabold">2</span>
+                                Maklumat Program
+                            </h3>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                            <div class="sm:col-span-2">
+                                <label for="kj_nama_program" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                                    Nama Penuh Program <span class="text-rose-500">*</span>
+                                </label>
+                                <input type="text" id="kj_nama_program" required placeholder="Cth: Karnival Mahabbah Belia Ummah & Bengkel Celik Fiqh" class="w-full bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-xl focus:ring-2 focus:ring-usim-teal focus:border-usim-teal p-3">
+                            </div>
+
+                            <div>
+                                <label for="kj_kategori_program" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                                    Kategori Program (Drop-down) <span class="text-rose-500">*</span>
+                                </label>
+                                <select id="kj_kategori_program" required class="w-full bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-xl focus:ring-2 focus:ring-usim-teal focus:border-usim-teal p-3">
+                                    <option value="" disabled selected>-- Pilih Kategori --</option>
+                                    <option value="Seminar / Konvensyen Ilmiah">Seminar / Konvensyen Ilmiah</option>
+                                    <option value="Bengkel Fardhu Ain & Kifayah">Bengkel Fardhu Ain & Pengurusan Jenazah</option>
+                                    <option value="Kem Kerohanian & Jati Diri">Kem Kerohanian Mahasiswa / Pelajar</option>
+                                    <option value="Festival / Karnival Dakwah Komuniti">Festival / Karnival Dakwah Komuniti</option>
+                                    <option value="Program Kebajikan & Khidmat Masyarakat">Program Kebajikan & Khidmat Masyarakat</option>
+                                    <option value="Lain-lain Kolaborasi Khas">Lain-lain Kolaborasi Khas</option>
+                                </select>
+                            </div>
+
+                            <div class="sm:col-span-2 lg:col-span-3">
+                                <label for="kj_objektif" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                                    Objektif & Bentuk Kerjasama yang Diharapkan <span class="text-rose-500">*</span>
+                                </label>
+                                <textarea id="kj_objektif" rows="2" required placeholder="Nyatakan sasaran peserta, perkongsian penceramah, khidmat fasilitator atau bentuk sokongan yang dipohon daripada Pusat Islam..." class="w-full bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-xl focus:ring-2 focus:ring-usim-teal focus:border-usim-teal p-3"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3. Tarikh, Masa, Tempat & Lain-lain yang berkaitan -->
+                    <div>
+                        <div class="border-b border-slate-100 pb-3 mb-5">
+                            <h3 class="text-sm sm:text-base font-bold text-usim-navy flex items-center gap-2">
+                                <span class="w-6 h-6 rounded-lg bg-teal-50 text-usim-teal flex items-center justify-center text-xs font-extrabold">3</span>
+                                Tarikh, Masa, Tempat & Butiran Tambahan
+                            </h3>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                            <div>
+                                <label for="kj_tarikh" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                                    Tarikh Program <span class="text-rose-500">*</span>
+                                </label>
+                                <input type="date" id="kj_tarikh" required class="w-full bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-xl focus:ring-2 focus:ring-usim-teal focus:border-usim-teal p-3">
+                            </div>
+
+                            <div>
+                                <label for="kj_masa" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                                    Masa / Sesi <span class="text-rose-500">*</span>
+                                </label>
+                                <select id="kj_masa" required class="w-full bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-xl focus:ring-2 focus:ring-usim-teal focus:border-usim-teal p-3">
+                                    <option value="" disabled selected>-- Pilih Masa Sesi --</option>
+                                    <option value="Sesi Pagi (08:30 PG - 01:00 TGH)">Sesi Pagi (08:30 PG - 01:00 TGH)</option>
+                                    <option value="Sesi Petang (02:00 PTG - 06:00 PTG)">Sesi Petang (02:00 PTG - 06:00 PTG)</option>
+                                    <option value="Sesi Malam (08:00 MLM - 11:00 MLM)">Sesi Malam (08:00 MLM - 11:00 MLM)</option>
+                                    <option value="Sepenuh Hari (08:30 PG - 05:30 PTG)">Sepenuh Hari (08:30 PG - 05:30 PTG)</option>
+                                    <option value="Program Bersiri / Berbilang Hari">Program Bersiri / Berbilang Hari</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label for="kj_tempat" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                                    Cadangan Tempat / Premis <span class="text-rose-500">*</span>
+                                </label>
+                                <select id="kj_tempat" required class="w-full bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-xl focus:ring-2 focus:ring-usim-teal focus:border-usim-teal p-3">
+                                    <option value="" disabled selected>-- Pilih Tempat Cadangan --</option>
+                                    <option value="Kompleks Islam Tunku Muhriz (Masjid USIM)">Kompleks Islam Tunku Muhriz (Masjid USIM)</option>
+                                    <option value="Dewan Kuliah Pusat USIM">Dewan Kuliah Pusat USIM</option>
+                                    <option value="Kolej Kediaman Siswa/Siswi">Kolej Kediaman Mahasiswa</option>
+                                    <option value="Lokasi Luar Kampus / Premis Komuniti">Lokasi Komuniti Luar USIM</option>
+                                </select>
+                            </div>
+
+                            <div class="sm:col-span-2 lg:col-span-3">
+                                <label for="kj_lain_lain" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                                    Lain-lain yang Berkaitan (Peralatan, Jemputan VIP, Keperluan Khusus)
+                                </label>
+                                <textarea id="kj_lain_lain" rows="2" placeholder="Nyatakan sebarang keperluan sokongan tambahan seperti PA sistem, jemputan Pegawai Utama, penginapan penceramah jemputan, dll..." class="w-full bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-xl focus:ring-2 focus:ring-usim-teal focus:border-usim-teal p-3"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row justify-end gap-3 pt-3 border-t border-slate-100">
+                        <button type="submit" class="px-8 py-3 rounded-xl bg-usim-navy hover:bg-usim-navyLight text-white font-bold text-xs uppercase tracking-wider shadow transition-all flex items-center justify-center gap-2">
+                            <span>Hantar Permohonan Kerjasama</span>
+                            <svg class="w-4 h-4 text-usim-goldLight" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- ======================================================== -->
+        <!-- MODUL 3: TEMPAHAN FASILITI DAN RUANG                     -->
+        <!-- ======================================================== -->
+        <section id="module-fasiliti" class="hidden space-y-6">
+            <div class="bg-gradient-to-r from-usim-tealDark via-usim-navy to-slate-900 text-white rounded-2xl p-6 sm:p-8 shadow-sm relative overflow-hidden">
+                <div class="relative z-10 max-w-3xl">
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-white/10 text-teal-200 border border-white/20 mb-3 uppercase tracking-wider">
+                        Modul 3: Pengurusan Fasiliti & Aset
+                    </span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">Tempahan Fasiliti dan Ruang</h2>
+                    <p class="mt-2 text-slate-200 text-xs sm:text-sm leading-relaxed">
+                        Pengurusan sewaan tempat, tempahan ruang kompleks dan kalendar ketersediaan slot terkini bagi mengelakkan pertembungan acara.
+                    </p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                
+                <!-- Borang Tempahan (8 Cols) -->
+                <div class="lg:col-span-8 bg-white rounded-2xl border border-usim-border shadow-sm p-5 sm:p-8">
+                    <form id="formFasiliti" onsubmit="handleFasilitiSubmit(event)" class="space-y-6">
+                        
+                        <!-- Pilihan Utama: Sewaan Tempat / Tempahan Ruang -->
+                        <div>
+                            <div class="border-b border-slate-100 pb-3 mb-4">
+                                <h3 class="text-sm font-bold text-usim-navy flex items-center gap-2">
+                                    <span class="w-6 h-6 rounded-lg bg-teal-50 text-usim-teal flex items-center justify-center text-xs font-extrabold">A</span>
+                                    Kategori Pilihan (Drop-down)
+                                </h3>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="tf_kategori_pilihan" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                                        Pilihan Kategori Permohonan <span class="text-rose-500">*</span>
+                                    </label>
+                                    <select id="tf_kategori_pilihan" required onchange="onFasilitiTypeChange(this.value)" class="w-full bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-xl focus:ring-2 focus:ring-usim-teal focus:border-usim-teal p-3">
+                                        <option value="Tempahan Ruang Sahaja" selected>Tempahan Ruang Sahaja (Warga USIM)</option>
+                                        <option value="Sewaan Tempat">Sewaan Tempat (Kadar Sewaan Agensi/Awam)</option>
+                                        <option value="Tempahan Ruang & Peralatan Tambahan">Pakej Penuh: Ruang & Sewaan Peralatan</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label for="tf_ruang_pilihan" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                                        Pilihan Ruang / Fasiliti <span class="text-rose-500">*</span>
+                                    </label>
+                                    <select id="tf_ruang_pilihan" required class="w-full bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-xl focus:ring-2 focus:ring-usim-teal focus:border-usim-teal p-3">
+                                        <option value="Dewan Solat Utama (Kapasiti 2,500 Jemaah)">Dewan Solat Utama (Kapasiti 2,500 Jemaah)</option>
+                                        <option value="Bilik Seminar Ibnu Khaldun (Kapasiti 100 Pax)">Bilik Seminar Ibnu Khaldun (Kapasiti 100 Pax)</option>
+                                        <option value="Bilik Mesyuarat Al-Ghazali (Kapasiti 35 Pax)">Bilik Mesyuarat Al-Ghazali (Kapasiti 35 Pax)</option>
+                                        <option value="Dataran Kompleks Islam (Kawasan Luar / Khemah)">Dataran Kompleks Islam (Kawasan Terbuka)</option>
+                                        <option value="Laman Foyer Aras Bawah (Ruang Jamuan)">Laman Foyer Aras Bawah (Ruang Jamuan)</option>
+                                        <option value="Bilik Amali Fardhu Kifayah">Bilik Amali Kursus Pengurusan Jenazah</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pilihan Sewaan Peralatan (Jika dipilih) -->
+                        <div id="tf_peralatan_box" class="space-y-4 pt-2 border-t border-slate-100 hidden">
+                            <h4 class="text-xs font-bold uppercase tracking-wider text-usim-tealDark">Peralatan Sewaan Tambahan:</h4>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="tf_peralatan" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                                        Item Peralatan Disewa
+                                    </label>
+                                    <select id="tf_peralatan" class="w-full bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-xl focus:ring-2 focus:ring-usim-teal focus:border-usim-teal p-3">
+                                        <option value="Tiada Peralatan Tambahan">Tiada Peralatan Tambahan</option>
+                                        <option value="Set PA Portable (2 Mic Tanpa Wayar)">Set PA Portable (2 Mic Tanpa Wayar)</option>
+                                        <option value="Set Rehal Kayu Ukir USIM (20 Unit)">Set Rehal Kayu Ukir (20 Unit)</option>
+                                        <option value="Set Sejadah Saf Gulung (10 Meter)">Set Sejadah Saf Gulung (10 Meter)</option>
+                                        <option value="Projektor Mudah Alih & Skrin Lipat">Projektor Mudah Alih & Skrin Lipat</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="tf_susun_atur" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                                        Susun Atur Ruang
+                                    </label>
+                                    <select id="tf_susun_atur" class="w-full bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-xl focus:ring-2 focus:ring-usim-teal focus:border-usim-teal p-3">
+                                        <option value="Duduk Bersila Sejadah">Duduk Bersila di Sejadah (Tradisional Masjid)</option>
+                                        <option value="Susunan Teater (Kerusi Sahaja)">Susunan Teater (Kerusi Sahaja)</option>
+                                        <option value="Susunan Meja Mesyuarat / Bengkel">Susunan Meja Mesyuarat / Bilik Kuliah</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tarikh & Sesi -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 border-t border-slate-100">
+                            <div>
+                                <label for="tf_tarikh" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                                    Tarikh Tempahan Dipilih <span class="text-rose-500">*</span>
+                                </label>
+                                <input type="date" id="tf_tarikh" required class="w-full bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-xl focus:ring-2 focus:ring-usim-teal focus:border-usim-teal p-3">
+                            </div>
+
+                            <div>
+                                <label for="tf_slot" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                                    Slot Waktu Penggunaan <span class="text-rose-500">*</span>
+                                </label>
+                                <select id="tf_slot" required class="w-full bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-xl focus:ring-2 focus:ring-usim-teal focus:border-usim-teal p-3">
+                                    <option value="" disabled selected>-- Pilih Slot Waktu --</option>
+                                    <option value="Sesi Pagi (08:30 PG - 12:30 TGH)">Sesi Pagi (08:30 PG - 12:30 TGH)</option>
+                                    <option value="Sesi Petang (02:00 PTG - 05:00 PTG)">Sesi Petang (02:00 PTG - 05:00 PTG)</option>
+                                    <option value="Sesi Malam (08:00 MLM - 10:30 MLM)">Sesi Malam (08:00 MLM - 10:30 MLM)</option>
+                                    <option value="Sepenuh Hari (08:30 PG - 05:00 PTG)">Sepenuh Hari (08:30 PG - 05:00 PTG)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Maklumat Lengkap Pemohon -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 border-t border-slate-100">
+                            <div>
+                                <label for="tf_nama" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                                    Nama Pemohon / Wakil <span class="text-rose-500">*</span>
+                                </label>
+                                <input type="text" id="tf_nama" required placeholder="Cth: Dr. Hamdan bin Mat" class="w-full bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-xl focus:ring-2 focus:ring-usim-teal focus:border-usim-teal p-3">
+                            </div>
+
+                            <div>
+                                <label for="tf_tel" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                                    No. Telefon WhatsApp <span class="text-rose-500">*</span>
+                                </label>
+                                <input type="tel" id="tf_tel" required placeholder="01X-XXXXXXX" class="w-full bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-xl focus:ring-2 focus:ring-usim-teal focus:border-usim-teal p-3">
+                            </div>
+
+                            <div class="sm:col-span-2">
+                                <label for="tf_tujuan" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                                    Maklumat Lengkap Permohonan & Tujuan Program <span class="text-rose-500">*</span>
+                                </label>
+                                <textarea id="tf_tujuan" rows="2" required placeholder="Nyatakan nama majlis, anggaran bilangan jemaah/peserta, dan keperluan sokongan logistik..." class="w-full bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-xl focus:ring-2 focus:ring-usim-teal focus:border-usim-teal p-3"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-end gap-3 pt-2">
+                            <button type="submit" class="px-8 py-3 rounded-xl bg-usim-navy hover:bg-usim-navyLight text-white font-bold text-xs uppercase tracking-wider shadow transition-all flex items-center justify-center gap-2">
+                                <span>Hantar Permohonan Tempahan</span>
+                                <svg class="w-4 h-4 text-usim-goldLight" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Kalendar Terkini & Status Ketersediaan (4 Cols) -->
+                <div class="lg:col-span-4 space-y-4">
+                    <div class="bg-white rounded-2xl border border-usim-border shadow-sm p-5">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
+                            <h3 class="font-bold text-usim-navy text-sm flex items-center gap-2">
+                                <span class="text-usim-teal">📅</span> Kalendar Terkini
+                            </h3>
+                            <span id="calHeader" class="text-xs font-bold text-usim-teal bg-teal-50 px-2.5 py-1 rounded-md border border-teal-200">November 2026</span>
+                        </div>
+
+                        <!-- Calendar Month Navigator -->
+                        <div class="flex justify-between items-center mb-3 text-xs">
+                            <button onclick="navigateMonth(-1)" class="px-2.5 py-1 rounded-lg border border-slate-200 hover:bg-slate-100 text-slate-600 font-semibold">‹ Lepas</button>
+                            <span class="text-[11px] text-slate-400 font-medium">Pilih tarikh untuk tempahan</span>
+                            <button onclick="navigateMonth(1)" class="px-2.5 py-1 rounded-lg border border-slate-200 hover:bg-slate-100 text-slate-600 font-semibold">Depan ›</button>
+                        </div>
+
+                        <!-- Days of Week -->
+                        <div class="grid grid-cols-7 text-center text-[10px] font-bold text-slate-400 uppercase mb-2">
+                            <span>Ah</span><span>Is</span><span>Se</span><span>Ra</span><span>Kh</span><span>Ju</span><span>Sa</span>
+                        </div>
+
+                        <!-- Dates Grid populated via JS -->
+                        <div id="calendarDates" class="grid grid-cols-7 gap-1 text-xs"></div>
+
+                        <!-- Legend -->
+                        <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+                            <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> Kosong</span>
+                            <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span> Terhad</span>
+                            <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span> Penuh</span>
+                        </div>
+                    </div>
+
+                    <!-- Ringkasan Ketersediaan Hari Ini -->
+                    <div class="bg-gradient-to-br from-usim-navy to-slate-900 text-white rounded-2xl p-5 shadow-sm space-y-3">
+                        <div class="flex items-center justify-between text-xs">
+                            <span class="text-usim-goldLight font-bold uppercase tracking-wider">Aktiviti Terdekat Kompleks</span>
+                            <span class="bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-2 py-0.5 rounded text-[10px]">Terkini</span>
+                        </div>
+                        <div class="space-y-2 text-xs">
+                            <div class="p-2.5 rounded-xl bg-white/10 border border-white/10">
+                                <div class="font-bold text-teal-200">Dewan Solat Utama</div>
+                                <div class="text-[11px] text-slate-300">Kuliah Dhuha & Bacaan Yasin Jumaat</div>
+                            </div>
+                            <div class="p-2.5 rounded-xl bg-white/10 border border-white/10">
+                                <div class="font-bold text-teal-200">Bilik Seminar Ibnu Khaldun</div>
+                                <div class="text-[11px] text-slate-300">Kursus Kaunseling & Bimbingan Keluarga</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ======================================================== -->
+        <!-- MODUL 4: ADUAN / MAKLUM BALAS                            -->
+        <!-- ======================================================== -->
+        <section id="module-aduan" class="hidden space-y-6">
+            <div class="bg-gradient-to-r from-slate-900 via-amber-950 to-usim-navy text-white rounded-2xl p-6 sm:p-8 shadow-sm relative overflow-hidden">
+                <div class="relative z-10 max-w-3xl">
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-white/10 text-amber-300 border border-white/20 mb-3 uppercase tracking-wider">
+                        Modul 4: Saluran Kualiti & Maklum Balas
+                    </span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">Aduan & Maklum Balas Khidmat</h2>
+                    <p class="mt-2 text-slate-200 text-xs sm:text-sm leading-relaxed">
+                        Saluran telus bagi menyuarakan aduan kerosakan fasiliti, kebersihan, sistem siaraya atau sebarang maklum balas penambahbaikan perkhidmatan Pusat Islam USIM.
+                    </p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl border border-usim-border shadow-sm p-5 sm:p-8">
+                <form id="formAduan" onsubmit="handleAduanSubmit(event)" class="space-y-6">
+                    
+                    <div class="border-b border-slate-100 pb-3">
+                        <h3 class="text-sm sm:text-base font-bold text-usim-navy flex items-center gap-2">
+                            <span>📝</span> Borang Maklum Balas & Aduan Rasmi
+                        </h3>
+                        <p class="text-xs text-slate-500 mt-0.5">Setiap aduan yang dihantar akan didaftarkan dengan status <strong class="text-amber-700">"Dalam Tindakan"</strong> serta ditugaskan kepada pegawai bertugas.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                        
+                        <!-- Maklumat Lengkap Pengadu -->
+                        <div>
+                            <label for="aduan_nama" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                                Maklumat Lengkap Pengadu (Nama Penuh) <span class="text-rose-500">*</span>
+                            </label>
+                            <input type="text" id="aduan_nama" required placeholder="Cth: Muhammad Azlan bin Shukor" class="w-full bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 p-3">
+                        </div>
+
+                        <!-- No Telefon -->
+                        <div>
+                            <label for="aduan_tel" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                                No. Telefon (WhatsApp) <span class="text-rose-500">*</span>
+                            </label>
+                            <input type="tel" id="aduan_tel" required placeholder="Cth: 012-3456789" class="w-full bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 p-3">
+                        </div>
+
+                        <!-- Kategori Pengadu -->
+                        <div>
+                            <label for="aduan_kategori" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                                Kategori Pengadu <span class="text-rose-500">*</span>
+                            </label>
+                            <select id="aduan_kategori" required class="w-full bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 p-3">
+                                <option value="Mahasiswa USIM" selected>Mahasiswa USIM</option>
+                                <option value="Kakitangan Staf USIM">Kakitangan Staf USIM</option>
+                                <option value="Jemaah Awam / Kariah Nilai">Jemaah Awam / Kariah Nilai</option>
+                                <option value="Pelawat Luar Universiti">Pelawat Luar Universiti</option>
+                            </select>
+                        </div>
+
+                        <!-- Skop Aduan (Dropdown) -->
+                        <div class="sm:col-span-2 lg:col-span-2">
+                            <label for="aduan_skop" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                                Skop Aduan (Drop-down) <span class="text-rose-500">*</span>
+                            </label>
+                            <select id="aduan_skop" required class="w-full bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 p-3">
+                                <option value="" disabled selected>-- Pilih Skop Aduan / Maklum Balas --</option>
+                                <option value="Kerosakan Fasiliti & Bangunan">Kerosakan Fasiliti & Bangunan (Lampu / Pendingin Hawa / Pintu)</option>
+                                <option value="Kebersihan Ruang Solat & Tempat Wuduk">Kebersihan Ruang Solat, Tempat Wuduk & Tandas</option>
+                                <option value="Sistem Siaraya / PA System & Audio Azan">Sistem Siaraya / PA System & Audio Azan / Khutbah</option>
+                                <option value="Layanan Kaunter & Petugas Pegawai">Layanan Kaunter & Petugas Pegawai Agama</option>
+                                <option value="Tempat Letak Kereta & Trafik Solat Jumaat">Tempat Letak Kereta & Kelancaran Trafik</option>
+                                <option value="Cadangan Penambahbaikan Aktiviti Dakwah">Cadangan Penambahbaikan Pengimarahan Dakwah</option>
+                                <option value="Lain-Lain yang berkaitan">Lain-Lain yang berkaitan</option>
+                            </select>
+                        </div>
+
+                        <!-- Status Permulaan -->
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                                Status Tindakan Permulaan
+                            </label>
+                            <div class="p-3 bg-amber-50 border border-amber-300 rounded-xl flex items-center gap-2">
+                                <span class="w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse"></span>
+                                <span class="text-xs font-bold text-amber-900">Dalam Tindakan (Sistem Automatik)</span>
+                            </div>
+                        </div>
+
+                        <!-- Maklumat Aduan / Maklumbalas -->
+                        <div class="sm:col-span-2 lg:col-span-3">
+                            <label for="aduan_maklumat" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                                Maklumat Aduan / Maklum Balas Terperinci <span class="text-rose-500">*</span>
+                            </label>
+                            <textarea id="aduan_maklumat" rows="3" required placeholder="Nyatakan keterangan terperinci berkenaan aduan, lokasi spesifik, atau cadangan penambahbaikan..." class="w-full bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 p-3"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-end gap-3 pt-2">
+                        <button type="submit" class="px-8 py-3 rounded-xl bg-amber-800 hover:bg-amber-900 text-white font-bold text-xs uppercase tracking-wider shadow transition-all flex items-center justify-center gap-2">
+                            <span>Hantar Aduan / Maklum Balas</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- ======================================================== -->
+        <!-- MODUL 5: SEMAKAN STATUS TINDAKAN                         -->
+        <!-- ======================================================== -->
+        <section id="module-semakan" class="hidden space-y-6">
+            <div class="bg-gradient-to-r from-usim-navy via-slate-900 to-usim-navy text-white rounded-2xl p-6 sm:p-8 shadow-sm">
+                <div class="max-w-3xl">
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-white/10 text-teal-200 border border-white/20 mb-3 uppercase tracking-wider">
+                        Modul 5: Pengesanan Telus Masa Nyata
+                    </span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">Semakan Status Tindakan</h2>
+                    <p class="mt-2 text-slate-200 text-xs sm:text-sm">
+                        Semak perkembangan permohonan, tempahan, atau aduan anda secara terus melalui nombor rujukan atau nombor telefon. Paparan menyertakan status semasa (Dalam Tindakan / Selesai) dan Pegawai Pengesah bertugas.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Search Filter Bar -->
+            <div class="bg-white rounded-2xl border border-usim-border shadow-sm p-6 sm:p-8">
+                <div class="max-w-2xl mx-auto space-y-4">
+                    <label for="searchQuery" class="block text-xs font-bold uppercase tracking-wider text-slate-700">
+                        Masukkan No. Rujukan ATAU No. Telefon Pemohon / Pengadu:
+                    </label>
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <div class="relative flex-grow">
+                            <input type="text" id="searchQuery" placeholder="Cth: USIM-KHD-2026-1011 atau 013-4567890" class="w-full bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-xl focus:ring-2 focus:ring-usim-teal focus:border-usim-teal p-3.5 pl-10 font-mono uppercase">
+                            <svg class="w-5 h-5 text-slate-400 absolute left-3 top-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                            </svg>
+                        </div>
+                        <button onclick="cariStatus()" class="px-8 py-3.5 bg-usim-navy hover:bg-usim-navyLight text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow flex items-center justify-center gap-2">
+                            <span>Semak Rekod</span>
+                        </button>
+                    </div>
+
+                    <!-- Quick Sample Clicks -->
+                    <div class="flex flex-wrap items-center gap-2 pt-2 text-xs text-slate-500">
+                        <span class="font-semibold">Contoh Ujian Pantas:</span>
+                        <button onclick="quickSearch('USIM-KHD-2026-1011')" class="bg-amber-50 hover:bg-amber-100 text-amber-900 px-2.5 py-1 rounded-lg border border-amber-200 font-mono text-[11px]">
+                            USIM-KHD-2026-1011 (Dalam Tindakan)
+                        </button>
+                        <button onclick="quickSearch('USIM-TMP-2026-2042')" class="bg-emerald-50 hover:bg-emerald-100 text-emerald-900 px-2.5 py-1 rounded-lg border border-emerald-200 font-mono text-[11px]">
+                            USIM-TMP-2026-2042 (Selesai)
+                        </button>
+                        <button onclick="quickSearch('USIM-ADN-2026-4019')" class="bg-amber-50 hover:bg-amber-100 text-amber-900 px-2.5 py-1 rounded-lg border border-amber-200 font-mono text-[11px]">
+                            USIM-ADN-2026-4019 (Aduan)
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Hasil Semakan -->
+                <div id="semakanResultContainer" class="mt-8 border-t border-slate-100 pt-6 hidden"></div>
+            </div>
+        </section>
+
+        <!-- ======================================================== -->
+        <!-- PAPAN PEMUKA PENTADBIR & PENGESAH (ADMIN BACKEND)        -->
+        <!-- ======================================================== -->
+        <section id="module-pengurusan" class="hidden space-y-6">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-6 rounded-2xl border border-usim-border shadow-sm">
+                <div>
+                    <div class="flex items-center gap-2">
+                        <h2 class="text-xl sm:text-2xl font-extrabold text-usim-navy">Papan Pemuka Pentadbir & Pegawai Pengesah</h2>
+                        <span class="bg-teal-100 text-teal-800 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">Pentadbiran</span>
+                    </div>
+                    <p class="text-xs text-slate-500 mt-1">Kemaskini status tindakan antara <strong>"Dalam Tindakan"</strong> atau <strong>"Selesai"</strong> dan tetapkan catatan Pegawai Pengesah.</p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="px-3 py-1.5 rounded-lg text-xs font-bold bg-usim-surface border border-slate-300 text-slate-700">
+                        Status Sistem: Aktif 2026
+                    </span>
+                </div>
+            </div>
+
+            <!-- Metric Stats Summary -->
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="bg-white p-5 rounded-2xl border border-usim-border shadow-sm">
+                    <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Permohonan Khidmat</span>
+                    <h4 class="text-2xl font-black text-usim-navy mt-1" id="statKhidmatCount">0</h4>
+                    <span class="text-[11px] text-teal-600 font-medium">Tahlil, Ruqyah & Doa</span>
+                </div>
+
+                <div class="bg-white p-5 rounded-2xl border border-usim-border shadow-sm">
+                    <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Kerjasama Program</span>
+                    <h4 class="text-2xl font-black text-usim-navy mt-1" id="statKerjasamaCount">0</h4>
+                    <span class="text-[11px] text-teal-600 font-medium">Kolaborasi Fakulti/NGO</span>
+                </div>
+
+                <div class="bg-white p-5 rounded-2xl border border-usim-border shadow-sm">
+                    <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Tempahan Fasiliti</span>
+                    <h4 class="text-2xl font-black text-usim-navy mt-1" id="statFasilitiCount">0</h4>
+                    <span class="text-[11px] text-teal-600 font-medium">Ruang & Sewaan</span>
+                </div>
+
+                <div class="bg-white p-5 rounded-2xl border border-usim-border shadow-sm">
+                    <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Aduan Dalam Tindakan</span>
+                    <h4 class="text-2xl font-black text-amber-700 mt-1" id="statAduanCount">0</h4>
+                    <span class="text-[11px] text-amber-600 font-medium">Perlu Tindakan Unit</span>
+                </div>
+            </div>
+
+            <!-- Table of All Tickets -->
+            <div class="bg-white rounded-2xl border border-usim-border shadow-sm overflow-hidden">
+                <div class="p-5 border-b border-slate-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+                    <div>
+                        <h3 class="font-bold text-usim-navy text-sm sm:text-base">Senarai Seluruh Permohonan & Tindakan</h3>
+                        <p class="text-xs text-slate-500">Klik butang tindakan untuk menukar status atau mengemaskini maklumat Pegawai Pengesah.</p>
+                    </div>
+                    <div>
+                        <select id="adminFilterModul" onchange="filterAdminTable(this.value)" class="text-xs font-semibold bg-slate-50 border border-slate-300 rounded-xl p-2.5">
+                            <option value="SEMUA">Semua Kategori Modul</option>
+                            <option value="Perkhidmatan">1. Perkhidmatan</option>
+                            <option value="Kerjasama">2. Kerjasama Program</option>
+                            <option value="Fasiliti">3. Fasiliti & Ruang</option>
+                            <option value="Aduan">4. Aduan / Maklum Balas</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs text-slate-600">
+                        <thead class="bg-slate-50 uppercase text-[11px] font-bold text-slate-700 border-b border-slate-200">
+                            <tr>
+                                <th class="px-5 py-3.5">No. Rujukan</th>
+                                <th class="px-5 py-3.5">Modul</th>
+                                <th class="px-5 py-3.5">Pemohon / Pengadu</th>
+                                <th class="px-5 py-3.5">Butiran Ringkas</th>
+                                <th class="px-5 py-3.5">Status Tindakan</th>
+                                <th class="px-5 py-3.5">Pegawai Pengesah</th>
+                                <th class="px-5 py-3.5 text-right">Tindakan</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminTableBody" class="divide-y divide-slate-100 font-medium"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Toast Notification Box -->
+    <div id="toastBox" class="fixed bottom-5 right-5 z-50 transform translate-y-36 transition-transform duration-300 ease-out max-w-sm w-full px-4 no-print">
+        <div class="bg-usim-navy text-white p-4 rounded-2xl shadow-xl flex items-center gap-3 border border-white/20">
+            <span id="toastIcon" class="text-xl">✅</span>
+            <div class="flex-grow">
+                <h4 id="toastTitle" class="text-xs font-bold uppercase tracking-wider text-teal-200">Berjaya</h4>
+                <p id="toastMessage" class="text-xs text-slate-200 mt-0.5">Permohonan telah direkodkan ke dalam sistem.</p>
+            </div>
+            <button onclick="hideToast()" class="text-slate-400 hover:text-white text-sm p-1">✕</button>
+        </div>
+    </div>
+
+    <!-- Confirmation & Success Slip Modal -->
+    <div id="slipModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-100">
+            <div class="text-center space-y-3">
+                <div class="w-14 h-14 bg-teal-50 text-usim-teal rounded-2xl flex items-center justify-center mx-auto text-2xl font-black shadow-inner border border-teal-200">
+                    ✓
+                </div>
+                <h3 class="text-lg sm:text-xl font-extrabold text-usim-navy">Permohonan Berjaya Direkodkan!</h3>
+                <p class="text-xs text-slate-600">
+                    Maklumat anda telah didaftarkan ke Pusat Islam USIM. Sila catat atau simpan nombor rujukan di bawah untuk tujuan semakan status tindakan.
+                </p>
+
+                <!-- Slip Card -->
+                <div class="bg-slate-50 border-2 border-dashed border-teal-300 p-4 rounded-2xl my-4 text-center">
+                    <span class="text-[10px] uppercase tracking-wider text-slate-500 font-bold block mb-1">Nombor Rujukan Pengesanan</span>
+                    <span id="modalRefDisplay" class="text-xl sm:text-2xl font-black text-usim-navy tracking-wider font-mono">USIM-2026-0000</span>
+                    <div id="modalStatusBadge" class="mt-2.5 inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-900 border border-amber-300">
+                        <span class="w-2 h-2 rounded-full bg-amber-500 animate-ping"></span>
+                        Status: Dalam Tindakan
+                    </div>
+                </div>
+
+                <div id="modalSlipDetails" class="text-left bg-slate-50 p-4 rounded-xl text-xs space-y-1.5 text-slate-700 border border-slate-200">
+                    <!-- Dynamic details inserted here -->
+                </div>
+            </div>
+
+            <div class="mt-6 flex flex-col sm:flex-row gap-2.5">
+                <button onclick="goToTrackingFromModal()" class="w-full py-3 bg-usim-navy hover:bg-usim-navyLight text-white font-bold rounded-xl text-xs uppercase tracking-wider transition-colors shadow">
+                    Semak Status Tindakan
+                </button>
+                <button onclick="closeSlipModal()" class="w-full py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-xl text-xs uppercase tracking-wider transition-colors">
+                    Tutup
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Status & Pegawai Pengesah Modal (Admin) -->
+    <div id="adminActionModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-100">
+            <h3 class="text-base font-bold text-usim-navy mb-1">Kemaskini Status & Pegawai Pengesah</h3>
+            <p class="text-xs text-slate-500 mb-4" id="adminModalTicketRef">Tiket: USIM-XXXX-XXXX</p>
+
+            <form id="formAdminUpdate" onsubmit="handleAdminUpdateSave(event)" class="space-y-4 text-xs">
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">Status Tindakan Semasa <span class="text-rose-500">*</span></label>
+                    <select id="edit_status" required class="w-full bg-slate-50 border border-slate-300 rounded-xl p-3 text-xs">
+                        <option value="Dalam Tindakan">Dalam Tindakan</option>
+                        <option value="Selesai">Selesai</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">Nama Pegawai Pengesah <span class="text-rose-500">*</span></label>
+                    <select id="edit_pegawai" required class="w-full bg-slate-50 border border-slate-300 rounded-xl p-3 text-xs">
+                        <option value="Ustaz Dr. Khairul Azhar (Pegawai Hal Ehwal Islam Kanan)">Ustaz Dr. Khairul Azhar (Pegawai Hal Ehwal Islam Kanan)</option>
+                        <option value="Ustazah Hjh. Sakinah binti Ramli (Unit Dakwah & Kerohanian)">Ustazah Hjh. Sakinah binti Ramli (Unit Dakwah & Kerohanian)</option>
+                        <option value="En. Ridzuan bin Mansor (Pegawai Fasiliti & Logistik)">En. Ridzuan bin Mansor (Pegawai Fasiliti & Logistik)</option>
+                        <option value="Ustaz Ahmad Faizal bin Kassim (Unit Kaunseling & Syariah)">Ustaz Ahmad Faizal bin Kassim (Unit Kaunseling & Syariah)</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">Catatan Tindakan / Ulasan Pengesah</label>
+                    <textarea id="edit_catatan" rows="3" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-3 text-xs" placeholder="Nyatakan tindakan yang telah diambil atau arahan susulan..."></textarea>
+                </div>
+
+                <div class="flex justify-end gap-2 pt-2">
+                    <button type="button" onclick="closeAdminModal()" class="px-4 py-2.5 rounded-xl border border-slate-300 text-slate-700 font-semibold">Batal</button>
+                    <button type="submit" class="px-5 py-2.5 rounded-xl bg-usim-navy text-white font-bold">Simpan Kemaskini</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Corporate Minimalist Footer -->
+    <footer class="bg-white border-t border-usim-border py-6 mt-12 text-slate-500 text-xs no-print">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-center sm:text-left">
+            <div>
+                <p class="font-bold text-usim-navy">Pusat Islam Universiti Sains Islam Malaysia (USIM)</p>
+                <p class="mt-0.5">Kompleks Islam Tunku Muhriz, Bandar Baru Nilai, 71800 Nilai, Negeri Sembilan Darul Khusus.</p>
+            </div>
+            <div class="flex items-center space-x-4 text-slate-400">
+                <span class="text-usim-tealDark font-semibold">Integriti • Barakah • Kesempurnaan</span>
+                <span>© 2026 USIM</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Logic Script (Self Contained, In-Memory) -->
+    <script>
+        // Database Store containing Pre-populated Realistic Records
+        let ticketsData = [
+            {
+                ref: 'USIM-KHD-2026-1011',
+                module: 'Perkhidmatan',
+                subJenis: 'Ruqyah (Rawatan Perubatan Islam)',
+                nama: 'Dr. Zulfadli bin Razak',
+                tel: '013-4567890',
+                kategoriPemohon: 'Kakitangan Staf USIM',
+                butiran: 'Ruqyah Rawatan Syifaa\' & Bimbingan Doa Syarie',
+                lokasi: 'Bilik Rawatan Syifaa\' Pusat Islam',
+                tarikhMohon: '2026-11-02',
+                tarikhCadang: '2026-11-12',
+                status: 'Dalam Tindakan',
+                pegawaiPengesah: 'Ustaz Ahmad Faizal bin Kassim (Unit Kaunseling & Syariah)',
+                catatanPegawai: 'Temujanji telah disahkan. Pegawai perawat telah dijadualkan untuk sesi petang jam 2:30 PTG.'
+            },
+            {
+                ref: 'USIM-TMP-2026-2042',
+                module: 'Fasiliti & Ruang',
+                subJenis: 'Tempahan Ruang',
+                nama: 'Persatuan Mahasiswa Fakulti Syariah & Undang-Undang',
+                tel: '019-3344556',
+                kategoriPemohon: 'Kelab / Persatuan USIM',
+                butiran: 'Dewan Solat Utama (Kapasiti 2,500 Jemaah) [Sesi Pagi]',
+                lokasi: 'Kompleks Islam Tunku Muhriz',
+                tarikhMohon: '2026-10-28',
+                tarikhCadang: '2026-11-20',
+                status: 'Selesai',
+                pegawaiPengesah: 'En. Ridzuan bin Mansor (Pegawai Fasiliti & Logistik)',
+                catatanPegawai: 'Permohonan diluluskan sepenuhnya. Slip tempahan rasmi dan kebenaran penggunaan siaraya telah dikeluarkan.'
+            },
+            {
+                ref: 'USIM-KJP-2026-3015',
+                module: 'Kerjasama Program',
+                subJenis: 'Seminar / Konvensyen Ilmiah',
+                nama: 'Prof. Madya Dr. Nabilah (Pusat Pengajian Bahasa)',
+                tel: '017-8899112',
+                kategoriPemohon: 'Fakulti USIM',
+                butiran: 'Wacana Falak & Tadabbur Al-Quran Peringkat IPT',
+                lokasi: 'Bilik Seminar Ibnu Khaldun',
+                tarikhMohon: '2026-11-04',
+                tarikhCadang: '2026-11-25',
+                status: 'Dalam Tindakan',
+                pegawaiPengesah: 'Ustazah Hjh. Sakinah binti Ramli (Unit Dakwah & Kerohanian)',
+                catatanPegawai: 'Kertas cadangan program sedang disemak bersama Jawatankuasa Pengimarahan Pusat Islam.'
+            },
+            {
+                ref: 'USIM-ADN-2026-4019',
+                module: 'Aduan',
+                subJenis: 'Kerosakan Fasiliti & Bangunan',
+                nama: 'Siti Nurhaliza (Mahasiswi)',
+                tel: '012-7766554',
+                kategoriPemohon: 'Mahasiswa USIM',
+                butiran: 'Tempat Wuduk Aras Bawah: Injap kepala paip nombor 3 longgar & bocor.',
+                lokasi: 'Zon Wuduk Muslimat',
+                tarikhMohon: '2026-11-05',
+                tarikhCadang: '2026-11-05',
+                status: 'Dalam Tindakan',
+                pegawaiPengesah: 'En. Ridzuan bin Mansor (Pegawai Fasiliti & Logistik)',
+                catatanPegawai: 'Aduan disalurkan terus kepada juruteknik bertugas. Penggantian kepala paip baharu dalam proses kerja.'
+            }
+        ];
+
+        let activeTicketForEdit = null;
+        let lastCreatedRef = '';
+        let currentMonth = 10; // 0-based: 10 = November
+        let currentYear = 2026;
+
+        // On Window Load
+        window.onload = function() {
+            renderAdminTable();
+            renderCalendar(currentYear, currentMonth);
+            updateDashboardStats();
+
+            // Set default date picker min to today
+            const todayStr = new Date().toISOString().split('T')[0];
+            ['pk_tarikh', 'kj_tarikh', 'tf_tarikh'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.min = todayStr;
+            });
+
+            // Mobile Drawer toggle
+            const toggle = document.getElementById('mobileMenuToggle');
+            const drawer = document.getElementById('mobileDrawer');
+            if (toggle && drawer) {
+                toggle.addEventListener('click', () => {
+                    drawer.classList.toggle('hidden');
+                });
+            }
+        };
+
+        // Navigation Switcher
+        function switchModule(modId) {
+            const modules = ['perkhidmatan', 'kerjasama', 'fasiliti', 'aduan', 'semakan', 'pengurusan'];
+            modules.forEach(m => {
+                const sec = document.getElementById(`module-${m}`);
+                const btn = document.getElementById(`btn-tab-${m}`);
+                if (sec) sec.classList.add('hidden');
+                if (btn) btn.classList.remove('active');
+            });
+
+            const activeSec = document.getElementById(`module-${modId}`);
+            const activeBtn = document.getElementById(`btn-tab-${modId}`);
+            if (activeSec) activeSec.classList.remove('hidden');
+            if (activeBtn) activeBtn.classList.add('active');
+
+            // Close mobile drawer if opened
+            const drawer = document.getElementById('mobileDrawer');
+            if (drawer) drawer.classList.add('hidden');
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Perkhidmatan Drop-Down Logic
+        function onPerkhidmatanChange(val) {
+            const descBox = document.getElementById('pk_description_box');
+            const lainBox = document.getElementById('pk_lain_box');
+            const lainInput = document.getElementById('pk_lain_input');
+
+            if (val === 'Lain-Lain yang berkaitan') {
+                lainBox.classList.remove('hidden');
+                lainInput.required = true;
+            } else {
+                lainBox.classList.add('hidden');
+                lainInput.required = false;
+            }
+
+            let desc = '';
+            if (val === 'Bacaan Tahlil, Baca Yasin, Solat Hajat') {
+                desc = 'ℹ️ Bimbingan majlis tahlil arwah, bacaan Surah Yasin, doa selamat, serta imam solat hajat.';
+            } else if (val === 'Ruqyah (Rawatan Perubatan Islam)') {
+                desc = 'ℹ️ Sesi ruqyah syar\'iyyah berpandukan Al-Quran & Sunnah oleh Pegawai Perawat bertauliah di Bilik Rawatan Syifaa\'.';
+            } else if (val === 'Pengacaraan Majlis / Baca Doa') {
+                desc = 'ℹ️ Khidmat teks doa rasmi universiti dan pengacaraan mengikut protokol hal ehwal Islam.';
+            } else if (val === 'Tazkirah') {
+                desc = 'ℹ️ Pengisian tazkirah rohani mengikut sukatan fiqh, akhlak, dan pembangunan syahsiah.';
+            } else if (val === 'Rundingan, Kaunseling dan bimbingan') {
+                desc = 'ℹ️ Bimbingan syariah, kekeluargaan, muamalat, dan sokongan kebajikan muallaf secara berhemah & sulit.';
+            } else if (val === 'Kebajikan') {
+                desc = 'ℹ️ Skim bantuan asnaf, pengurusan musibah, dan lawatan mahabbah pesakit.';
+            } else if (val === 'Sumbangan') {
+                desc = 'ℹ️ Penyaluran dana tabung masjid untuk aktiviti dakwah berimpak tinggi.';
+            }
+
+            if (desc) {
+                descBox.textContent = desc;
+                descBox.classList.remove('hidden');
+            } else {
+                descBox.classList.add('hidden');
+            }
+        }
+
+        // Fasiliti Type Drop-Down Logic
+        function onFasilitiTypeChange(val) {
+            const box = document.getElementById('tf_peralatan_box');
+            if (val.includes('Peralatan') || val === 'Sewaan Tempat') {
+                box.classList.remove('hidden');
+            } else {
+                box.classList.add('hidden');
+            }
+        }
+
+        // Calendar Generator
+        function renderCalendar(year, month) {
+            const grid = document.getElementById('calendarDates');
+            const header = document.getElementById('calHeader');
+            if (!grid || !header) return;
+
+            const monthNames = ['Januari', 'Februari', 'Mac', 'April', 'Mei', 'Jun', 'Julai', 'Ogos', 'September', 'Oktober', 'November', 'Disember'];
+            header.textContent = `${monthNames[month]} ${year}`;
+            grid.innerHTML = '';
+
+            const firstDayIndex = new Date(year, month, 1).getDay();
+            const totalDays = new Date(year, month + 1, 0).getDate();
+
+            // Leading blanks
+            for (let i = 0; i < firstDayIndex; i++) {
+                const empty = document.createElement('div');
+                empty.className = 'h-9 rounded-lg bg-slate-50/50';
+                grid.appendChild(empty);
+            }
+
+            // Real Days
+            for (let day = 1; day <= totalDays; day++) {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+
+                let indicatorColor = 'bg-emerald-500';
+                let bgStyle = 'border-slate-200 hover:bg-teal-50 text-slate-700';
+
+                // Demo booking simulation
+                if (day === 12 || day === 20) {
+                    indicatorColor = 'bg-rose-500';
+                    bgStyle = 'bg-rose-50 border-rose-200 text-rose-800';
+                } else if (day === 15 || day === 25) {
+                    indicatorColor = 'bg-amber-500';
+                    bgStyle = 'bg-amber-50 border-amber-200 text-amber-800';
+                }
+
+                btn.className = `h-9 rounded-lg border text-xs font-semibold flex flex-col items-center justify-center p-1 transition-all ${bgStyle}`;
+                btn.innerHTML = `<span>${day}</span><span class="w-1.5 h-1.5 rounded-full ${indicatorColor}"></span>`;
+                btn.onclick = () => {
+                    const targetInput = document.getElementById('tf_tarikh');
+                    if (targetInput) {
+                        targetInput.value = dateStr;
+                        showToast('Tarikh Dipilih', `Tarikh tempahan ${dateStr} telah ditetapkan.`);
+                    }
+                };
+                grid.appendChild(btn);
+            }
+        }
+
+        function navigateMonth(offset) {
+            currentMonth += offset;
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            } else if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            renderCalendar(currentYear, currentMonth);
+        }
+
+        // 1. Submit Handlers: Modul 1 (Perkhidmatan)
+        function handlePerkhidmatanSubmit(e) {
+            e.preventDefault();
+            let jenis = document.getElementById('pk_jenis').value;
+            if (jenis === 'Lain-Lain yang berkaitan') {
+                jenis = `Lain-lain: ${document.getElementById('pk_lain_input').value}`;
+            }
+            const tarikh = document.getElementById('pk_tarikh').value;
+            const waktu = document.getElementById('pk_waktu').value;
+            const kategori = document.getElementById('pk_kategori').value;
+            const nama = document.getElementById('pk_nama').value;
+            const tel = document.getElementById('pk_tel').value;
+            const lokasi = document.getElementById('pk_lokasi').value;
+            const ket = document.getElementById('pk_keterangan').value;
+
+            const codeNum = Math.floor(1000 + Math.random() * 9000);
+            const ref = `USIM-KHD-2026-${codeNum}`;
+            lastCreatedRef = ref;
+
+            const newRecord = {
+                ref: ref,
+                module: 'Perkhidmatan',
+                subJenis: jenis,
+                nama: nama,
+                tel: tel,
+                kategoriPemohon: kategori,
+                butiran: `${jenis} (${waktu})`,
+                lokasi: lokasi,
+                tarikhMohon: new Date().toISOString().split('T')[0],
+                tarikhCadang: tarikh,
+                status: 'Dalam Tindakan',
+                pegawaiPengesah: 'Ustaz Dr. Khairul Azhar (Pegawai Hal Ehwal Islam Kanan)',
+                catatanPegawai: 'Permohonan diterima dalam sistem. Dalam proses semakan kelayakan & penetapan pegawai bertugas.'
+            };
+
+            ticketsData.unshift(newRecord);
+            updateDashboardStats();
+            renderAdminTable();
+
+            const slip = `
+                <div><strong>Jenis Khidmat:</strong> ${jenis}</div>
+                <div><strong>Tarikh & Sesi:</strong> ${tarikh} (${waktu})</div>
+                <div><strong>Pemohon:</strong> ${nama} (${kategori})</div>
+                <div><strong>No. Telefon:</strong> ${tel}</div>
+                <div><strong>Lokasi:</strong> ${lokasi}</div>
+                <div><strong>Pegawai Pengesah:</strong> ${newRecord.pegawaiPengesah}</div>
+                <div><strong>Keterangan:</strong> ${ket}</div>
+            `;
+            openSlipModal(ref, 'Dalam Tindakan', slip);
+            document.getElementById('formPerkhidmatan').reset();
+            document.getElementById('pk_description_box').classList.add('hidden');
+        }
+
+        // 2. Submit Handlers: Modul 2 (Kerjasama Program)
+        function handleKerjasamaSubmit(e) {
+            e.preventDefault();
+            const namaPenyelaras = document.getElementById('kj_nama_pemohon').value;
+            const organisasi = document.getElementById('kj_organisasi').value;
+            const tel = document.getElementById('kj_tel').value;
+            const namaProgram = document.getElementById('kj_nama_program').value;
+            const kategoriProg = document.getElementById('kj_kategori_program').value;
+            const objektif = document.getElementById('kj_objektif').value;
+            const tarikh = document.getElementById('kj_tarikh').value;
+            const masa = document.getElementById('kj_masa').value;
+            const tempat = document.getElementById('kj_tempat').value;
+
+            const codeNum = Math.floor(1000 + Math.random() * 9000);
+            const ref = `USIM-KJP-2026-${codeNum}`;
+            lastCreatedRef = ref;
+
+            const newRecord = {
+                ref: ref,
+                module: 'Kerjasama Program',
+                subJenis: kategoriProg,
+                nama: `${namaPenyelaras} (${organisasi})`,
+                tel: tel,
+                kategoriPemohon: organisasi,
+                butiran: `${namaProgram} [${kategoriProg}]`,
+                lokasi: tempat,
+                tarikhMohon: new Date().toISOString().split('T')[0],
+                tarikhCadang: tarikh,
+                status: 'Dalam Tindakan',
+                pegawaiPengesah: 'Ustazah Hjh. Sakinah binti Ramli (Unit Dakwah & Kerohanian)',
+                catatanPegawai: 'Permohonan kerjasama telah diterima dan dijadualkan untuk pertimbangan mesyuarat pengurusan.'
+            };
+
+            ticketsData.unshift(newRecord);
+            updateDashboardStats();
+            renderAdminTable();
+
+            const slip = `
+                <div><strong>Nama Program:</strong> ${namaProgram}</div>
+                <div><strong>Kategori:</strong> ${kategoriProg}</div>
+                <div><strong>Anjuran Bersama:</strong> ${organisasi}</div>
+                <div><strong>Penyelaras:</strong> ${namaPenyelaras} (${tel})</div>
+                <div><strong>Tarikh & Masa:</strong> ${tarikh} (${masa})</div>
+                <div><strong>Tempat:</strong> ${tempat}</div>
+                <div><strong>Objektif:</strong> ${objektif}</div>
+            `;
+            openSlipModal(ref, 'Dalam Tindakan', slip);
+            document.getElementById('formKerjasama').reset();
+        }
+
+        // 3. Submit Handlers: Modul 3 (Fasiliti & Ruang)
+        function handleFasilitiSubmit(e) {
+            e.preventDefault();
+            const kategoriPilihan = document.getElementById('tf_kategori_pilihan').value;
+            const ruang = document.getElementById('tf_ruang_pilihan').value;
+            const peralatan = document.getElementById('tf_peralatan').value;
+            const tarikh = document.getElementById('tf_tarikh').value;
+            const slot = document.getElementById('tf_slot').value;
+            const nama = document.getElementById('tf_nama').value;
+            const tel = document.getElementById('tf_tel').value;
+            const tujuan = document.getElementById('tf_tujuan').value;
+
+            const codeNum = Math.floor(1000 + Math.random() * 9000);
+            const ref = `USIM-TMP-2026-${codeNum}`;
+            lastCreatedRef = ref;
+
+            const newRecord = {
+                ref: ref,
+                module: 'Fasiliti & Ruang',
+                subJenis: kategoriPilihan,
+                nama: nama,
+                tel: tel,
+                kategoriPemohon: 'Pemohon Fasiliti',
+                butiran: `${ruang} [${slot}]`,
+                lokasi: ruang,
+                tarikhMohon: new Date().toISOString().split('T')[0],
+                tarikhCadang: tarikh,
+                status: 'Dalam Tindakan',
+                pegawaiPengesah: 'En. Ridzuan bin Mansor (Pegawai Fasiliti & Logistik)',
+                catatanPegawai: 'Semakan jadual kalendar dewan dan peralatan sedang diselaraskan bersama unit teknikal.'
+            };
+
+            ticketsData.unshift(newRecord);
+            updateDashboardStats();
+            renderAdminTable();
+
+            const slip = `
+                <div><strong>Kategori:</strong> ${kategoriPilihan}</div>
+                <div><strong>Fasiliti / Ruang:</strong> ${ruang}</div>
+                <div><strong>Peralatan Tambahan:</strong> ${peralatan}</div>
+                <div><strong>Tarikh & Sesi:</strong> ${tarikh} (${slot})</div>
+                <div><strong>Pemohon:</strong> ${nama} (Tel: ${tel})</div>
+                <div><strong>Tujuan:</strong> ${tujuan}</div>
+            `;
+            openSlipModal(ref, 'Dalam Tindakan', slip);
+            document.getElementById('formFasiliti').reset();
+        }
+
+        // 4. Submit Handlers: Modul 4 (Aduan / Maklum Balas)
+        function handleAduanSubmit(e) {
+            e.preventDefault();
+            const nama = document.getElementById('aduan_nama').value;
+            const tel = document.getElementById('aduan_tel').value;
+            const kategori = document.getElementById('aduan_kategori').value;
+            const skop = document.getElementById('aduan_skop').value;
+            const maklumat = document.getElementById('aduan_maklumat').value;
+
+            const codeNum = Math.floor(1000 + Math.random() * 9000);
+            const ref = `USIM-ADN-2026-${codeNum}`;
+            lastCreatedRef = ref;
+
+            // Status terus "Dalam Tindakan"
+            const newRecord = {
+                ref: ref,
+                module: 'Aduan',
+                subJenis: skop,
+                nama: `${nama} (${kategori})`,
+                tel: tel,
+                kategoriPemohon: kategori,
+                butiran: `${skop}: ${maklumat}`,
+                lokasi: 'Kompleks Islam Tunku Muhriz',
+                tarikhMohon: new Date().toISOString().split('T')[0],
+                tarikhCadang: new Date().toISOString().split('T')[0],
+                status: 'Dalam Tindakan',
+                pegawaiPengesah: 'En. Ridzuan bin Mansor (Pegawai Fasiliti & Logistik)',
+                catatanPegawai: 'Tiket aduan telah dibuka. Pasukan teknikal diarah untuk melakukan pemeriksaan di lokasi.'
+            };
+
+            ticketsData.unshift(newRecord);
+            updateDashboardStats();
+            renderAdminTable();
+
+            const slip = `
+                <div><strong>Pengadu:</strong> ${nama} (${kategori})</div>
+                <div><strong>No. Telefon:</strong> ${tel}</div>
+                <div><strong>Skop Aduan:</strong> ${skop}</div>
+                <div><strong>Keterangan:</strong> ${maklumat}</div>
+                <div><strong>Status:</strong> <span class="text-amber-800 font-bold">Dalam Tindakan (Tiket Dibuka)</span></div>
+                <div><strong>Pegawai Pengesah Ditugaskan:</strong> ${newRecord.pegawaiPengesah}</div>
+            `;
+            openSlipModal(ref, 'Dalam Tindakan', slip);
+            document.getElementById('formAduan').reset();
+        }
+
+        // Modal Controllers
+        function openSlipModal(ref, status, detailsHtml) {
+            document.getElementById('modalRefDisplay').textContent = ref;
+            document.getElementById('modalSlipDetails').innerHTML = detailsHtml;
+            const badge = document.getElementById('modalStatusBadge');
+            badge.className = "mt-2.5 inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-900 border border-amber-300";
+            badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span> Status: ${status}`;
+            document.getElementById('slipModal').classList.remove('hidden');
+        }
+
+        function closeSlipModal() {
+            document.getElementById('slipModal').classList.add('hidden');
+            showToast('Maklumat Disimpan', 'Rekod kini berada dalam pangkalan data Pusat Islam.');
+        }
+
+        function goToTrackingFromModal() {
+            closeSlipModal();
+            switchModule('semakan');
+            quickSearch(lastCreatedRef);
+        }
+
+        // Modul 5: SEMAKAN STATUS TINDAKAN
+        function cariStatus() {
+            const raw = document.getElementById('searchQuery').value.trim();
+            const container = document.getElementById('semakanResultContainer');
+            if (!container) return;
+
+            if (!raw) {
+                container.innerHTML = `
+                    <div class="p-4 bg-rose-50 border border-rose-200 text-rose-800 rounded-xl text-xs font-semibold">
+                        Sila masukkan nombor rujukan permohonan yang sah atau nombor telefon pengadu.
+                    </div>
+                `;
+                container.classList.remove('hidden');
+                return;
+            }
+
+            const queryUpper = raw.toUpperCase();
+            const cleanQueryPhone = raw.replace(/[^0-9]/g, '');
+
+            const record = ticketsData.find(t => 
+                t.ref.toUpperCase().includes(queryUpper) ||
+                (cleanQueryPhone.length > 5 && t.tel && t.tel.replace(/[^0-9]/g, '').includes(cleanQueryPhone)) ||
+                t.nama.toUpperCase().includes(queryUpper)
+            );
+
+            if (record) {
+                const isSelesai = record.status === 'Selesai';
+                const statusBadge = isSelesai 
+                    ? `<span class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-900 border border-emerald-300 flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-600"></span> Status: Selesai</span>`
+                    : `<span class="px-3 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-900 border border-amber-300 flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-amber-500 animate-ping"></span> Status: Dalam Tindakan</span>`;
+
+                container.innerHTML = `
+                    <div class="bg-gradient-to-br from-slate-50 to-teal-50/20 p-6 sm:p-7 rounded-2xl border border-teal-200/80 space-y-6">
+                        
+                        <!-- Header Status Record -->
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-slate-200/80 pb-4">
+                            <div>
+                                <span class="text-[11px] font-bold uppercase tracking-wider text-usim-teal">${record.module} • ${record.subJenis}</span>
+                                <h3 class="text-xl sm:text-2xl font-black text-usim-navy font-mono mt-0.5">${record.ref}</h3>
+                            </div>
+                            <div>
+                                ${statusBadge}
+                            </div>
+                        </div>
+
+                        <!-- Progress Step Flow -->
+                        <div class="bg-white p-4 rounded-xl border border-slate-200">
+                            <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400 block mb-3">Garis Masa Tindakan:</span>
+                            <div class="grid grid-cols-3 text-center gap-2">
+                                <div class="space-y-1">
+                                    <div class="w-7 h-7 mx-auto rounded-full bg-emerald-600 text-white flex items-center justify-center text-xs font-bold">✓</div>
+                                    <p class="text-[11px] font-bold text-slate-800">1. Diterima</p>
+                                    <span class="text-[10px] text-slate-400">${record.tarikhMohon}</span>
+                                </div>
+                                <div class="space-y-1">
+                                    <div class="w-7 h-7 mx-auto rounded-full ${!isSelesai ? 'bg-amber-500 text-white animate-pulse' : 'bg-emerald-600 text-white'} flex items-center justify-center text-xs font-bold">
+                                        ${!isSelesai ? '2' : '✓'}
+                                    </div>
+                                    <p class="text-[11px] font-bold ${!isSelesai ? 'text-amber-900' : 'text-slate-800'}">2. Dalam Tindakan</p>
+                                    <span class="text-[10px] text-slate-400">${!isSelesai ? 'Sedang Diproses' : 'Selesai Siasatan'}</span>
+                                </div>
+                                <div class="space-y-1">
+                                    <div class="w-7 h-7 mx-auto rounded-full ${isSelesai ? 'bg-emerald-600 text-white' : 'bg-slate-200 text-slate-400'} flex items-center justify-center text-xs font-bold">
+                                        ${isSelesai ? '✓' : '3'}
+                                    </div>
+                                    <p class="text-[11px] font-bold ${isSelesai ? 'text-emerald-900' : 'text-slate-400'}">3. Selesai</p>
+                                    <span class="text-[10px] text-slate-400">${isSelesai ? 'Tindakan Lengkap' : 'Menunggu Penutupan'}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Maklumat Lengkap Pemohon & Pengesah Grid -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs bg-white p-5 rounded-xl border border-slate-200">
+                            <div>
+                                <span class="text-slate-400 font-semibold block text-[10px] uppercase">Nama Pemohon / Pengadu:</span>
+                                <span class="font-bold text-slate-900 text-sm">${record.nama}</span>
+                            </div>
+                            <div>
+                                <span class="text-slate-400 font-semibold block text-[10px] uppercase">No. Telefon:</span>
+                                <span class="font-mono text-slate-800 text-sm">${record.tel || '-'}</span>
+                            </div>
+                            <div class="sm:col-span-2">
+                                <span class="text-slate-400 font-semibold block text-[10px] uppercase">Butiran Permohonan / Aduan:</span>
+                                <span class="font-medium text-slate-800 leading-relaxed">${record.butiran}</span>
+                            </div>
+                            <div class="sm:col-span-2 p-3.5 bg-slate-50 rounded-xl border border-slate-200/70 space-y-1">
+                                <span class="text-usim-navy font-bold block text-[11px] flex items-center gap-1.5">
+                                    <span>👤</span> Pegawai Pengesah Bertugas:
+                                </span>
+                                <span class="font-semibold text-teal-900">${record.pegawaiPengesah || 'Sedang Ditugaskan oleh Pentadbiran Pusat Islam'}</span>
+                                <div class="mt-2 text-slate-600 text-[11px] border-t border-slate-200 pt-1.5">
+                                    <strong class="text-slate-700">Catatan Tindakan:</strong> ${record.catatanPegawai || 'Tiada catatan tambahan.'}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Print & WhatsApp Share -->
+                        <div class="flex flex-wrap items-center justify-between gap-3 text-xs pt-1">
+                            <span class="text-slate-500">Pusat Islam USIM sentiasa bersedia membantu anda.</span>
+                            <div class="flex items-center gap-2">
+                                <button onclick="window.print()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-lg transition-colors border border-slate-300">
+                                    Cetak Slip
+                                </button>
+                                <button onclick="showToast('Notifikasi Dihantar', 'Salinan status telah dihantar ke nombor WhatsApp pemohon.')" class="px-4 py-2 bg-usim-navy hover:bg-usim-navyLight text-white font-bold rounded-lg transition-colors">
+                                    Kemas Kini WhatsApp
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = `
+                    <div class="p-8 bg-slate-50 border border-slate-200 rounded-2xl text-center space-y-2">
+                        <span class="text-3xl">🔍</span>
+                        <h4 class="font-bold text-usim-navy text-sm sm:text-base">Tiada Rekod Ditemui</h4>
+                        <p class="text-xs text-slate-500 max-w-sm mx-auto">
+                            Tiada permohonan atau aduan dijumpai untuk carian "<strong>${raw}</strong>". Sila semak semula nombor rujukan anda.
+                        </p>
+                    </div>
+                `;
+            }
+            container.classList.remove('hidden');
+        }
+
+        function quickSearch(code) {
+            const input = document.getElementById('searchQuery');
+            if (input) {
+                input.value = code;
+                cariStatus();
+            }
+        }
+
+        // Papan Pentadbir / Pengesah Table Renderer
+        function renderAdminTable(dataToRender = null) {
+            const tbody = document.getElementById('adminTableBody');
+            if (!tbody) return;
+
+            const list = dataToRender || ticketsData;
+            tbody.innerHTML = list.map(item => {
+                const isSelesai = item.status === 'Selesai';
+                const statusBadge = isSelesai
+                    ? `<span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-900 border border-emerald-300">● Selesai</span>`
+                    : `<span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-100 text-amber-900 border border-amber-300">● Dalam Tindakan</span>`;
+
+                return `
+                    <tr class="hover:bg-slate-50 transition-colors">
+                        <td class="px-5 py-3.5 font-mono text-usim-navy font-bold text-xs">${item.ref}</td>
+                        <td class="px-5 py-3.5 whitespace-nowrap">
+                            <span class="px-2 py-0.5 rounded bg-slate-100 text-slate-700 text-[10px] font-semibold border border-slate-200">${item.module}</span>
+                        </td>
+                        <td class="px-5 py-3.5 font-semibold text-slate-800">${item.nama}</td>
+                        <td class="px-5 py-3.5 max-w-xs truncate text-slate-600">${item.butiran}</td>
+                        <td class="px-5 py-3.5">${statusBadge}</td>
+                        <td class="px-5 py-3.5 text-slate-700 font-medium text-[11px]">${item.pegawaiPengesah || '-'}</td>
+                        <td class="px-5 py-3.5 text-right whitespace-nowrap">
+                            <button onclick="openAdminActionModal('${item.ref}')" class="px-3 py-1.5 rounded-lg bg-teal-50 hover:bg-teal-100 text-usim-tealDark border border-teal-200 font-bold text-[11px]">
+                                Kemaskini
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function filterAdminTable(mod) {
+            if (mod === 'SEMUA') {
+                renderAdminTable();
+            } else {
+                const filtered = ticketsData.filter(t => t.module.includes(mod));
+                renderAdminTable(filtered);
+            }
+        }
+
+        // Admin Edit Modal
+        function openAdminActionModal(ref) {
+            const ticket = ticketsData.find(t => t.ref === ref);
+            if (!ticket) return;
+
+            activeTicketForEdit = ticket;
+            document.getElementById('adminModalTicketRef').textContent = `Tiket: ${ticket.ref} - ${ticket.nama}`;
+            document.getElementById('edit_status').value = ticket.status;
+            document.getElementById('edit_pegawai').value = ticket.pegawaiPengesah;
+            document.getElementById('edit_catatan').value = ticket.catatanPegawai || '';
+
+            document.getElementById('adminActionModal').classList.remove('hidden');
+        }
+
+        function closeAdminModal() {
+            document.getElementById('adminActionModal').classList.add('hidden');
+            activeTicketForEdit = null;
+        }
+
+        function handleAdminUpdateSave(e) {
+            e.preventDefault();
+            if (!activeTicketForEdit) return;
+
+            activeTicketForEdit.status = document.getElementById('edit_status').value;
+            activeTicketForEdit.pegawaiPengesah = document.getElementById('edit_pegawai').value;
+            activeTicketForEdit.catatanPegawai = document.getElementById('edit_catatan').value;
+
+            renderAdminTable();
+            updateDashboardStats();
+            closeAdminModal();
+            showToast('Kemaskini Berjaya', `Tiket ${activeTicketForEdit.ref} telah dikemaskini oleh Pegawai Pengesah.`);
+        }
+
+        // Dashboard Stats
+        function updateDashboardStats() {
+            const khidmat = ticketsData.filter(t => t.module === 'Perkhidmatan').length;
+            const kerjasama = ticketsData.filter(t => t.module === 'Kerjasama Program').length;
+            const fasiliti = ticketsData.filter(t => t.module === 'Fasiliti & Ruang').length;
+            const aduan = ticketsData.filter(t => t.module === 'Aduan' && t.status === 'Dalam Tindakan').length;
+
+            if (document.getElementById('statKhidmatCount')) document.getElementById('statKhidmatCount').textContent = khidmat + 8;
+            if (document.getElementById('statKerjasamaCount')) document.getElementById('statKerjasamaCount').textContent = kerjasama + 5;
+            if (document.getElementById('statFasilitiCount')) document.getElementById('statFasilitiCount').textContent = fasiliti + 14;
+            if (document.getElementById('statAduanCount')) document.getElementById('statAduanCount').textContent = aduan;
+        }
+
+        // Toast Feedback System
+        function showToast(title, msg) {
+            const box = document.getElementById('toastBox');
+            document.getElementById('toastTitle').textContent = title;
+            document.getElementById('toastMessage').textContent = msg;
+            box.classList.remove('translate-y-36');
+            box.classList.add('translate-y-0');
+
+            setTimeout(() => {
+                hideToast();
+            }, 3500);
+        }
+
+        function hideToast() {
+            const box = document.getElementById('toastBox');
+            box.classList.add('translate-y-36');
+            box.classList.remove('translate-y-0');
+        }
+    </script>
+</body>
+</html>
